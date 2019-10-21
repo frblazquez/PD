@@ -1,6 +1,14 @@
--- Francisco Javier Blázquez Martínez - frblazqu@ucm.es 
--- 
--- Descripción: Iniciación a haskell.
+-- Copyright © 2019
+--
+-- Francisco Javier Blázquez Martínez ~ frblazqu@ucm.es
+--
+-- Double degree in Mathematics-Computer engineering.
+-- Complutense university, Madrid.
+--
+-- Description:
+-- Basic haskell concepts and a brief introduction to functional
+-- programming with haskell.
+
 
 -- 1.- Basics:
 --
@@ -57,6 +65,9 @@
 --
 -- Data classes: Eq, Ord, Show, Read, Num, Integral, Fractional
 
+-- maximal::(Ord a) => a -> a -> a
+-- maximal a b = if(a > b) then a
+--               else           b
 
 -- 5.- List's functions:
 -- 
@@ -89,7 +100,7 @@
 -- ..
 -- tn -> en
 
-   
+        
 -- 7.- Function definition in Haskell:
 --
 -- A program in haskell (some *.hs file) consist on several function 
@@ -113,4 +124,41 @@
 
 -- 8.- Expressions evaluation:
 --
+-- f e1 e2 e3 ... en
+-- 
+-- In order of evaluating this, it first looks for a definition
+-- with a pattern that matches the expression.
+-- It goes then to the first guard that evaluates to true and it
+-- evaluates the expression of the guard after doing de adjustment
+-- of the pattern.
 --
+-- Funciones estrictas:
+-- [[e]]=undefined => [[fe]]=undefined
+--
+-- infixr, infixl, infix??
+
+
+-- 9.- Patterns:
+--
+-- These are made of variable identifiers, anonimous variables,
+-- constructors, several concrete patterns...
+--
+-- Example:
+-- soluciones’ (a,b,c) =
+--      let d = b^2-4*a*c
+--          e = -b/2*a
+--          r = sqrt d/2*a
+--      in  if d>0 then [e+r,e-r] else
+--          if d==0 then [e]
+--          else []
+
+-- Example:
+-- soluciones (a,b,c)
+--      | d>0 = [e+r,e-r]
+--      | d==0 = [e]
+--      | d<0 = []
+--      where   d = b^2-4*a*c
+--              e = -b/2*a
+--              r = sqrt d/2*a
+
+
