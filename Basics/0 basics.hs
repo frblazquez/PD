@@ -82,7 +82,15 @@
 --
 -- Other way to define lists:
 -- [1,2,3,4] ~ 1:2:3:4:[]
-
+--
+-- To apply a function over all the elements of a list we use map:
+--
+-- map (^2)  [1,2,3] = [1,4,9]
+-- map (:[]) [1,2,3] = [[1],[2],[3]]
+--
+-- Other high order function for lists are filter, all, any,
+-- takeWhile, dropWhile, span, break. More about high order functions
+-- can be seen at section 10.
 
 -- 6.- Syntactical expressions:
 -- 
@@ -160,5 +168,63 @@
 --      where   d = b^2-4*a*c
 --              e = -b/2*a
 --              r = sqrt d/2*a
+
+
+-- 10.- High order functions:
+--
+-- This functions have some arguments or the result of a functional
+-- type. We have seen map function for aplying some function to all
+-- the elements in a list. This is an example of High order function.
+--
+-- High order functions over lists:
+-- :t map    ---> map::(a->b)->[a]->[b]
+-- :t filter ---> filter :: (a -> Bool) -> [a] -> [a]
+-- :t all    ---> all :: Foldable t => (a -> Bool) -> t a -> Bool
+-- :t any    ---> any :: Foldable t => (a -> Bool) -> t a -> Bool
+-- :t iterate---> iterate :: (a -> a) -> a -> [a]
+-- :t zipWith---> zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+-- :t zip    ---> zip :: [a] -> [b] -> [(a, b)]
+--
+-- Ohter high order functions:
+-- (.) for composition of functions   (.)::(b->c)->(a->b)->(a->c)
+-- ($) for aplying a function to elem ($)::(a->b)-> a -> b
+-- 
+-- Foldr and Foldl functions:
+-- These functions define an abstract schema for creating functions
+-- to process all the elements in a list.
+--
+-- foldr f e [x1,...,xn] = f x1 (f x2 (...(f xn e)))
+-- foldl f e [x1,...,xn] = (f (...(f (f e x1) x2)...)) xn
+-- 
+-- foldr can process infinite lists
+-- foldl has to go all the list through
+
+
+-- 11.- Lambda-expressions:
+--
+-- These are nothing else than anonymous functions. Applied to an
+-- expression e' the result is the one obtained with the evaluation
+-- of e when x takes the value of e'.
+-- 
+-- Examples:
+-- (\x->x+1)2 = 3
+-- (\x->x+1)((\x->2*x) 3) = 7
+-- \(x,y) -> x) (3,4) = 3
+
+
+-- 12.- Intensional lists:
+--
+-- [e | c1,...,cr, b1,...,bs]
+--
+-- Examples:
+-- [x+1 | x <- [1..10] , primo x] = [3,4,6,8]
+-- let u=3 in [u+x | x <- [1..u]] = [4,5,6]
+--
+-- Quicksort with haskell:
+-- qsort :: Ord a => [a] -> [a]
+-- qsort [] = []
+-- qsort (x:xs) =  qsort [u | u <- xs, u < x]
+--                 ++ [x] ++
+--                 qsort [u | u <- xs, u > x]
 
 
