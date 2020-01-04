@@ -14,7 +14,6 @@
 -- Function for computing the dividers of a number
 
 dividers_r:: Integer -> [Integer]
-
 dividers_r n 
     | n < 1     = []
     | otherwise = dividers_minor (n-1) ++ [n]
@@ -33,7 +32,6 @@ dividers_r n
 
 -- Function for determining wheter a number is prime or not:
 prime_r:: Integer -> Bool
-
 prime_r n = (dividers_r n) == [1,n]
                    
 
@@ -41,27 +39,22 @@ prime_r n = (dividers_r n) == [1,n]
 
 -- Function for computing the dividers of a given number:
 dividers:: Integer -> [Integer]
-
 dividers n = [i | i <- [1..(div n 2)], n`mod`i==0] ++ [n]
 
 -- Function for determining wheter a number is prime or not:
 prime:: Integer -> Bool
-
 prime n = (dividers n) == [1,n]
 
 -- Function for computing all the prime numbers:
 primes:: [Integer]
-
 primes = [i | i <- [1..], prime i]
 
 -- Function for computing the prime number 100:
 prime100:: Integer
-
 prime100 = primes !! 99
 
 -- Compute the first prime number greater than a parameter given:
 prime_greater_than:: Integer -> Integer
-
 prime_greater_than n = greater_than primes
     where greater_than list
             | n < (head list) = head list

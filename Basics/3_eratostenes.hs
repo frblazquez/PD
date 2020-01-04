@@ -9,7 +9,6 @@
 -- Haskell basics, implementation of the eratosthenes sieve.
 
 eratostenes::[Integer]
-
 eratostenes = eratostenesAux [] [2..]
 
 eratostenesAux list1 list2 = eratostenesAux (list1 ++ [b]) list3
