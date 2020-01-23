@@ -124,3 +124,122 @@ isomorfos (Grafo v1 a1) (Grafo v2 a2) = (elem (mat_ady (Grafo v1 a1)) [mat_ady (
           all_permutations l  = [a:x | a <- l, x <- (all_permutations $ filter (\x -> x /= a) l)]
 
 
+-- Para mostrar un grafo cualquiera
+-- showGrafo::Grafo -> String
+-- showGrafo (Grafo vertices aristas) = show [[1,2,3],[4,5,6],[7,8,9]]
+
+
+-- Para poder leer un grafo
+-- readGrafo::Read a => Int -> ReadS a
+-- readGrafo _ input = [((Grafo [] []),"")]
+
+
+leerVertices::IO [Vertice]
+leerVertices = do c <- getChar
+                  if c=='\n' then return []
+                  else if c==',' || c=='[' || c==']' || c==')' || c=='(' then leerVertices
+                  else do vaux <- leerVertices            
+                          return ((read (c:[]) ::Vertice):vaux)
+
+leerVertice::IO Vertice
+leerVertice = do c <- getChar
+                 if c=='\n' then error "end of line reached, parsing failed"
+                 else if c==',' || c=='[' || c==']' || c==')' || c=='(' then leerVertice
+                 else return (read (c:[]) ::Vertice)
+
+leerArista::IO Arista
+leerArista = do v1 <- leerVertice 
+                v2 <- leerVertice
+                return (v1,v2)
+
+leerAristas::IO [Arista]
+leerAristas = do c <- getChar
+                 if c=='\n' then return []
+                 else if c==',' || c=='[' || c==']' || c==')' || c=='(' then leerAristas
+                 else do v2 <- leerVertice
+                         eaux <- leerAristas           
+                         return (((read (c:[]) ::Vertice),v2):eaux)
+
+leerGrafo::IO Grafo
+leerGrafo = do print "Por favor, introduzca la lista de vertices:"
+               v <- leerVertices
+               print "Por favor, introduzca la lista de aristas:"
+               a <- leerAristas
+               return (Grafo v a)
+               if (es_grafo (Grafo v a)) then return (Grafo v a)
+                                         else do print "ERROR! El grafo introducido no es correcto"
+                                                 leerGrafo
+
+
+muestra_matriz::IO()
+muestra_matriz  = do g <- leerGrafo
+                     listaDobleAMatriz (mat_ady g)
+
+listaDobleAMatriz::[[Bool]] -> IO()
+listaDobleAMatriz [] = putChar ' '
+listaDobleAMatriz (x:xs) = do booleanosA1y0s x
+                              listaDobleAMatriz xs
+
+booleanosA1y0s::[Bool] -> IO()
+booleanosA1y0s [] = putChar '\n'
+booleanosA1y0s (x:xs) = do if x then putStr "1 "
+                                else putStr "0 "
+                           booleanosA1y0s xs
+                                     
+
+-- muestra_lista_bool:: [[Bool]] -> IO()
+-- muestra_lista_bool = print "Hola"
+
+
+
+
+-- // NO ES NECESARIO GRACIAS A 'DERIVING'
+-- instance Show Vertice where show = showVertice
+
+--showVertice::Vertice -> String
+--showVertice A = "A"
+--showVertice B = "B"
+--showVertice C = "C"
+--showVertice D = "D"
+--showVertice E = "E"
+--showVertice F = "F"
+--showVertice G = "G"
+--showVertice H = "H"
+--showVertice I = "I"
+--showVertice J = "J"
+--showVertice K = "K"
+--showVertice L = "L"
+--showVertice M = "M"
+--showVertice N = "N"
+--showVertice O = "O"
+--showVertice P = "P"
+--showVertice Q = "Q"
+--showVertice R = "R"
+--showVertice S = "S"
+--showVertice T = "T"
+--showVertice U = "U"
+--showVertice V = "V"
+--showVertice W = "W"
+--showVertice X = "X"
+--showVertice Y = "Y"
+--showVertice Z = "Z"
+
+
+
+g1 = (Grafo [B,D,E,C] [(D,E),(E,B),(C,B),(E,C)])
+g2 = (Grafo [D,F,E]   [(D,F),(E,D),(D,E),(F,E)])
+g3 = (Grafo [A,C,D]   [(A,C),(C,D),(A,D)])
+g4 = (Grafo [A,B,C,D,E,F,G] [(A,B),(A,C),(B,D),(B,E),(C,F),(C,G)])
+g5 = (Grafo [A,B,C,D] [(A,B),(B,C),(C,D),(D,A)])
+g6 = (Grafo [B,C,D,E] [(B,C),(C,D),(D,E),(E,B)])
+g7 = (Grafo [B,C,D,E] [(D,E),(E,B),(B,C),(C,D)])
+g8 = (Grafo [D,E,B,C] [(D,E),(E,B),(B,C),(C,D)])
+
+-- data Palo  = Oros|Espadas|Copas|Bastos
+-- data Valor = Uno|Dos|Tres|Cuatro 
+-- data Carta = Carta Valor Palo
+
+-- muestra_carta::Carta->String
+-- muestra_carta (Carta Uno _) = "Tienes un as"
+-- muestra_carta _             = "No tienes un as"
+
